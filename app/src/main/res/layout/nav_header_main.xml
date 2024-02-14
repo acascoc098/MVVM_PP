@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/teal_700"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="72dp"
+        android:layout_height="68dp"
+        android:contentDescription="@string/nav_header_desc"
+        app:srcCompat="@drawable/illustration_of_the_beer_mugs_toasting_free_vector" />
+
+    <TextView
+        android:id="@+id/textomenu1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Andrea Castilla Cocera"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/textomenu2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="acascoc098@g.educaand.es" />
+</LinearLayout>
