@@ -10,13 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectopersonalizado.R
-import com.example.proyectopersonalizado.models.Hotel
+import com.example.proyectopersonalizado.models.Bar
 import kotlin.reflect.KFunction2
 
-class DialogAñadirHotel(private val context: Context) : DialogFragment() {
+class DialogAñadirBar(private val context: Context) : DialogFragment() {
 
      @SuppressLint("UseGetLayoutInflater")
-     fun onCreateDialog(listHotels: MutableList<Hotel>, recyclerView: RecyclerView, addHotelConfirm: KFunction2<Int, RecyclerView, Unit>): AlertDialog {
+     fun onCreateDialog(listBars: MutableList<Bar>, recyclerView: RecyclerView, addHotelConfirm: KFunction2<Int, RecyclerView, Unit>): AlertDialog {
         val builder = AlertDialog.Builder(context)
 
         // Inflar el layout para el dialog
@@ -41,9 +41,9 @@ class DialogAñadirHotel(private val context: Context) : DialogFragment() {
                     val url = textoUrl.text.toString()
                     if (nombre.isNotEmpty() && ciudad.isNotEmpty() && provincia.isNotEmpty() && telefono.isNotEmpty() && url.isNotEmpty()){
                         Toast.makeText(context, "Bar agregado correctamente", Toast.LENGTH_SHORT).show()
-                        val hotel = Hotel(nombre, ciudad, provincia, telefono, url)
-                        listHotels.add(hotel)
-                        val newPos = (listHotels.size-1)
+                        val bar = Bar(nombre, ciudad, provincia, telefono, url)
+                        listBars.add(bar)
+                        val newPos = (listBars.size-1)
 
                         addHotelConfirm(newPos, recyclerView)
                     }else{

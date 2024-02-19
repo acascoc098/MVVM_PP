@@ -8,14 +8,14 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectopersonalizado.R
-import com.example.proyectopersonalizado.models.Hotel
+import com.example.proyectopersonalizado.models.Bar
 import kotlin.reflect.KFunction2
 
-class DialogEditarHotel(val context: Context) {
+class DialogEditarBar(val context: Context) {
 
     private val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
 
-    fun showConfirmationDialog(pos: Int, listHotels: MutableList<Hotel>, recyclerView: RecyclerView, updateHotelConfirm: KFunction2<Int, RecyclerView, Unit>): AlertDialog? {
+    fun showConfirmationDialog(pos: Int, listBars: MutableList<Bar>, recyclerView: RecyclerView, updateHotelConfirm: KFunction2<Int, RecyclerView, Unit>): AlertDialog? {
         val builder = AlertDialog.Builder(context)
 
         // Inflar el layout para el dialog
@@ -31,7 +31,7 @@ class DialogEditarHotel(val context: Context) {
         // ...
 
         // Obtener el item a editar
-        val hotel = listHotels[pos]
+        val hotel = listBars[pos]
 
         // Establecer los valores en los campos de edición
         etNombre.setText(hotel.name)
@@ -58,9 +58,9 @@ class DialogEditarHotel(val context: Context) {
                     val url = textoUrl.text.toString()
                     if (nombre.isNotEmpty() && ciudad.isNotEmpty() && provincia.isNotEmpty() && telefono.isNotEmpty() && url.isNotEmpty()){
                         Toast.makeText(context, "Bar editado correctamente", Toast.LENGTH_SHORT).show()
-                        val nuevoHotel = Hotel(nombre, ciudad, provincia, telefono, url)
-                        listHotels.removeAt(pos)
-                        listHotels.add(pos, nuevoHotel)
+                        val nuevoBar = Bar(nombre, ciudad, provincia, telefono, url)
+                        listBars.removeAt(pos)
+                        listBars.add(pos, nuevoBar)
                         updateHotelConfirm(pos, recyclerView)
                     }else{
                         Toast.makeText(context, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()

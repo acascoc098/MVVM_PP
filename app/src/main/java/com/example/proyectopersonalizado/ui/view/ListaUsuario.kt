@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.view
 
 object ListaUsuario {
     private val usuarios: MutableList<Usuario> = mutableListOf()

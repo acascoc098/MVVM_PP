@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.view
 
 class Usuario {
     private lateinit var usuario: String

@@ -5,28 +5,28 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".HotelAplication"
+        android:name=".application.a.HotelAplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/illustration_of_the_beer_mugs_toasting_free_vector"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/illustration_of_the_beer_mugs_toasting_free_vector"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoPersonalizado"
         tools:targetApi="31">
 
         <activity
-            android:name=".viewmodel.HotelViewModel"
+            android:name=".ui.viewmodel.BarViewModel"
             android:exported="false" />
         <activity
-            android:name=".Registro"
+            android:name=".ui.view.Registro"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".ui.view.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

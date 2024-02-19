@@ -8,7 +8,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/toolbar_configuration"
-        android:icon="@drawable/ima1"
+        android:icon="@drawable/descarga"
         android:title="Configuracion"
         />
 </menu>

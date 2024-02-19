@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.util.EnumSet.range
+import com.example.proyectopersonalizado.R
 
 class Login : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.example.proyectopersonalizado.R
 
 class FragmentInformacion : Fragment() {
 

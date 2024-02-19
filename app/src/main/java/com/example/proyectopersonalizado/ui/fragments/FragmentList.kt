@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.fragments
 
 
 import android.os.Bundle
@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.proyectopersonalizado.R
 import com.example.proyectopersonalizado.databinding.FragmentListBinding
-import com.example.proyectopersonalizado.ui.AdapterHotel
-import com.example.proyectopersonalizado.viewmodel.HotelViewModel
+import com.example.proyectopersonalizado.ui.AdapterBar
+import com.example.proyectopersonalizado.ui.viewmodel.BarViewModel
 
 class FragmentList : Fragment() {
-    private val hotelViewModel: HotelViewModel by viewModels()
+    private val barViewModel: BarViewModel by viewModels()
     private lateinit var enlace: FragmentListBinding
     private lateinit var botonFlotante: ImageButton
     private lateinit var myRecyclerView: RecyclerView
@@ -36,12 +37,12 @@ class FragmentList : Fragment() {
     private fun init() {
         initRecyclerView()
 
-        hotelViewModel.getListHotels().observe(viewLifecycleOwner, { hotels ->
-            (myRecyclerView.adapter as? AdapterHotel)?.updateData(hotels)
+        barViewModel.getListHotels().observe(viewLifecycleOwner, { hotels ->
+            (myRecyclerView.adapter as? AdapterBar)?.updateData(hotels)
         })
 
-        hotelViewModel.setAdapter(myRecyclerView) // Pasa la referencia del RecyclerView
-        hotelViewModel.setAddButton(botonFlotante, myRecyclerView)
+        barViewModel.setAdapter(myRecyclerView) // Pasa la referencia del RecyclerView
+        barViewModel.setAddButton(botonFlotante, myRecyclerView)
     }
 
     private fun initRecyclerView() {

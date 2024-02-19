@@ -12,8 +12,4 @@
         android:id="@+id/threeFragment"
         android:title="ejemplo1"
         android:icon="@drawable/mas" />
-    <item
-        android:id="@+id/fourFragment"
-        android:title="ejemplo2"
-        android:icon="@drawable/mas" />
 </menu>

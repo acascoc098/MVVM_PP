@@ -1,10 +1,11 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.proyectopersonalizado.R
 
 class FragmentConfiguracion : Fragment() {
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
+    tools:context=".ui.view.Login"
     android:background="@color/nuevo">
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
@@ -13,7 +13,7 @@
         android:layout_height="540dp"
         android:layout_marginLeft="10dp"
         app:cardCornerRadius="50dp"
-        app:cardBackgroundColor="@color/cardview"
+        app:cardBackgroundColor="@color/white"
         >
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="350dp"

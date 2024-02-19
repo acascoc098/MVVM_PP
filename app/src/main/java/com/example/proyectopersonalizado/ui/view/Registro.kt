@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.proyectopersonalizado.R
 
 
 class Registro : AppCompatActivity() {
@@ -57,7 +57,7 @@ class Registro : AppCompatActivity() {
                     Toast.makeText(this, "El usuario ya existe", Toast.LENGTH_SHORT).show()
                 } else {
                     // Agregar el usuario a la lista
-                    listaUsuarios.agregarUsuario(usuarioCreado)
+                    ListaUsuario.agregarUsuario(usuarioCreado)
                     Toast.makeText(this, "Usuario guardado correctamente", Toast.LENGTH_SHORT).show()
 
                     // Limpiar los campos de texto
@@ -71,7 +71,7 @@ class Registro : AppCompatActivity() {
     }
 
     private fun usuarioExistente(usuario: String): Boolean {
-        if (listaUsuarios.comprobarUsuarios(usuario)==true){
+        if (ListaUsuario.comprobarUsuarios(usuario) ==true){
             return true;
         }
         return false;

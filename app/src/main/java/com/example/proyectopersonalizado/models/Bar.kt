@@ -1,6 +1,6 @@
 package com.example.proyectopersonalizado.models
 
-class Hotel (
+class Bar (
     var name: String,
     var city: String,
     var province: String,
@@ -8,6 +8,6 @@ class Hotel (
     var image: String
 ) {
     override fun toString(): String {
-        return "Hotel(name='$name', city='$city', province='$province', phone='$phone', image='$image')"
+        return "Bar(name='$name', city='$city', province='$province', phone='$phone', image='$image')"
     }
 }

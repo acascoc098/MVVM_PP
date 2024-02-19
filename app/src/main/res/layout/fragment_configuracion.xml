@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".FragmentHotels"
+    tools:context=".ui.fragments.FragmentBares"
     android:background="@color/nuevo">
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view2"
@@ -13,7 +13,7 @@
         android:layout_height="600dp"
         android:layout_margin="5dp"
         app:cardCornerRadius="50dp"
-        app:cardBackgroundColor="@color/verde"
+        app:cardBackgroundColor="@color/white"
         >
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="350dp"

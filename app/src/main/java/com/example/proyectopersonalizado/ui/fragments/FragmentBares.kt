@@ -1,17 +1,15 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.proyectopersonalizado.R
 
-class FragmentHotels : Fragment() {
+class FragmentBares : Fragment() {
     private lateinit var texto1: TextView
     private lateinit var texto2: TextView
 
@@ -20,12 +18,12 @@ class FragmentHotels : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hotels, container, false)
+        return inflater.inflate(R.layout.fragment_bares, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         texto1 = view.findViewById(R.id.tvtextore1)
         texto2 = view.findViewById(R.id.tvtextore2)
-        val myArgument : FragmentHotelsArgs by navArgs()
+        val myArgument : FragmentBaresArgs by navArgs()
         val nombre = myArgument.nombre
         val curso = myArgument.curso
         texto1.setText("$nombre")

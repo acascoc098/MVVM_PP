@@ -1,8 +1,6 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.application.a
 
 import android.app.Application
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

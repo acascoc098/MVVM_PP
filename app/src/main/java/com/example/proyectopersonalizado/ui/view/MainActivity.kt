@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado
+package com.example.proyectopersonalizado.ui.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -14,8 +14,10 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.proyectopersonalizado.R
+import com.example.proyectopersonalizado.ui.fragments.FragmentConfiguracionDirections
+import com.example.proyectopersonalizado.ui.fragments.FragmentInformacionDirections
+import com.example.proyectopersonalizado.ui.fragments.FragmentListDirections
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,14 +33,14 @@ class MainActivity : AppCompatActivity() {
 
 
     @Inject
-    lateinit var pruebaHilt: Prueba2Hilt
+    lateinit var pruebaHilt: QuePasa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        val chiste = pruebaHilt.hacerReir()
+        val chiste = pruebaHilt.cuenta()
         Toast.makeText( this, chiste, Toast. LENGTH_LONG).show()
 
 
@@ -109,7 +111,10 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
     }

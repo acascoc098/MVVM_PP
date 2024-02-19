@@ -6,9 +6,9 @@
     app:startDestination="@id/fragmentList">
     <fragment
         android:id="@+id/fragmentHotels"
-        android:name="com.example.proyectopersonalizado.FragmentHotels"
+        android:name="com.example.proyectopersonalizado.ui.fragments.FragmentBares"
         android:label="fragment_hotels"
-        tools:layout="@layout/fragment_hotels" >
+        tools:layout="@layout/fragment_bares" >
         <action
             android:id="@+id/action_fragmentHotels_to_fragmentList"
             app:destination="@id/fragmentList" />
@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentList"
-        android:name="com.example.proyectopersonalizado.FragmentList"
+        android:name="com.example.proyectopersonalizado.ui.fragments.FragmentList"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentConfiguracion"
-        android:name="com.example.proyectopersonalizado.FragmentConfiguracion"
+        android:name="com.example.proyectopersonalizado.ui.fragments.FragmentConfiguracion"
         android:label="FragmentConfiguracion" >
         <action
             android:id="@+id/action_fragmentConfiguracion_to_fragmentList"
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentInformacion"
-        android:name="com.example.proyectopersonalizado.FragmentInformacion"
+        android:name="com.example.proyectopersonalizado.ui.fragments.FragmentInformacion"
         android:label="FragmentInformacion" >
         <action
             android:id="@+id/action_fragmentInformacion_to_fragmentHotels"
