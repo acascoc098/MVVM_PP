@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".application.a.HotelAplication"
+        android:name=".HotelAplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,13 +20,13 @@
             android:name=".ui.viewmodel.BarViewModel"
             android:exported="false" />
         <activity
-            android:name=".ui.view.Registro"
+            android:name=".objets_models.Registro"
             android:exported="false" />
         <activity
             android:name=".ui.view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.Login"
+            android:name=".objets_models.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

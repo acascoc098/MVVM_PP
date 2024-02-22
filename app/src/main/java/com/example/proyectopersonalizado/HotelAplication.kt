@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado.application.a
+package com.example.proyectopersonalizado
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectopersonalizado.R
 import com.example.proyectopersonalizado.databinding.FragmentListBinding
-import com.example.proyectopersonalizado.ui.AdapterBar
+import com.example.proyectopersonalizado.adapter.AdapterBar
 import com.example.proyectopersonalizado.ui.viewmodel.BarViewModel
 
 class FragmentList : Fragment() {
