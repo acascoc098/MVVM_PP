@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectopersonalizado.R
-import com.example.proyectopersonalizado.data.retrofit.RequestUser
+import com.example.proyectopersonalizado.data.retrofit.RequestLoginUser
 import com.example.proyectopersonalizado.data.retrofit.RetrofitModule
 import com.example.proyectopersonalizado.data.room.dao.UEntityDao
 import com.example.proyectopersonalizado.data.room.database.DBUEntity
@@ -70,15 +70,16 @@ class Login : AppCompatActivity() {
 
 
             GlobalScope.launch(Dispatchers.IO) {
-                val comprobarUser = RetrofitModule.instance.inserte(RequestUser(valorUsuario,valorPass))
-                if(comprobarUser.isSuccessful && comprobarUser.body()?.result== "ok"){
+                val response = RetrofitModule.instance.auth(RequestLoginUser(valorUsuario,valorPass))
+
+                if (response.isSuccessful && response.body()?.result == "ok") {
                     preferencias.guardarUsuario(valorUsuario);
                     val intent = Intent(this@Login, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@Login, "USUARIO O CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@Login, "EMAIL O CONTRASEÑA INCORRECTA", Toast.LENGTH_LONG).show()
                     }
                 }
             }
