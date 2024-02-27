@@ -1,10 +1,10 @@
-package com.example.proyectopersonalizado.data.dao
+package com.example.proyectopersonalizado.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.proyectopersonalizado.data.entities.UsuarioEntity
+import com.example.proyectopersonalizado.data.room.entities.UsuarioEntity
 import com.example.proyectopersonalizado.objets_models.Usuario
 
 @Dao

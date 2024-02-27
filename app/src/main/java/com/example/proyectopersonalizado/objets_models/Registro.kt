@@ -9,9 +9,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectopersonalizado.R
-import com.example.proyectopersonalizado.data.dao.UEntityDao
-import com.example.proyectopersonalizado.data.database.DBUEntity
-import com.example.proyectopersonalizado.data.entities.UsuarioEntity
+import com.example.proyectopersonalizado.data.room.dao.UEntityDao
+import com.example.proyectopersonalizado.data.room.database.DBUEntity
+import com.example.proyectopersonalizado.data.room.entities.UsuarioEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado.data.database
+package com.example.proyectopersonalizado.data.room.database
 
 import android.content.Context
 import androidx.room.Room
