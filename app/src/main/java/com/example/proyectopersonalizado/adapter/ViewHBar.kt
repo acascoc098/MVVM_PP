@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado.ui
+package com.example.proyectopersonalizado.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

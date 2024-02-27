@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado.ui.view
+package com.example.proyectopersonalizado.objets_models
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,20 +9,92 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectopersonalizado.R
+import com.example.proyectopersonalizado.data.room.dao.UEntityDao
+import com.example.proyectopersonalizado.data.room.database.DBUEntity
+import com.example.proyectopersonalizado.data.room.entities.UsuarioEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class Registro : AppCompatActivity() {
 
-    private lateinit var usuarioEditText: EditText
+    lateinit var dao : UEntityDao
+    lateinit var database : DBUEntity
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_registro)
+
+        val BotonRegistrarse = findViewById<Button>(R.id.btnValidarReg)
+        val BotonVolver = findViewById<Button>(R.id.btnCreadoReg)
+        database = DBUEntity.getDatabase(applicationContext);
+        dao = database.usuarioEntityDao()
+
+        BotonVolver.setOnClickListener{
+            val intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }
+
+
+        BotonRegistrarse.setOnClickListener {
+            val editNuevoUsuario = findViewById<EditText>(R.id.etUsuarioReg)
+            val nuevoUsuario = editNuevoUsuario.text.toString()
+
+            val editsetNuevaContraseña = findViewById<EditText>(R.id.etContraseñaReg)
+            val nuevaContraseña = editsetNuevaContraseña.text.toString()
+
+            val nuevoUser = UsuarioEntity (usuario = nuevoUsuario, contrasena = nuevaContraseña)
+
+            GlobalScope.launch {
+                val existingUser = dao.getUsuarioByUsuario(nuevoUsuario)
+                if (existingUser == null) {
+                    dao.insertarUsuario(nuevoUser)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@Registro, "REGISTRADO SATISFACTORIAMENTE", Toast.LENGTH_LONG).show()
+                        delay(2000)
+                        finish() // Cierra la actividad actual
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@Registro, "EMAIL YA REGISTRADO", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+
+
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private lateinit var usuarioEditText: EditText
     private lateinit var contraseñaEditText: EditText
     private lateinit var guardarButton: Button
     private var listaUsuarios = ListaUsuario
     private lateinit var usuarioCreado: Usuario
-    private lateinit var creadoButton: Button
+    private lateinit var creadoButton: Button*/
 
 
-    @SuppressLint("MissingInflatedId")
-    override fun onCreate(savedInstanceState: Bundle?) {
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
 
@@ -75,5 +147,5 @@ class Registro : AppCompatActivity() {
             return true;
         }
         return false;
-    }
+    }*/
 }

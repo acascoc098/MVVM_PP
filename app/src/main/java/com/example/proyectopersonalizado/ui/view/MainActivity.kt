@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.proyectopersonalizado.R
+import com.example.proyectopersonalizado.objets_models.Login
 import com.example.proyectopersonalizado.ui.fragments.FragmentConfiguracionDirections
 import com.example.proyectopersonalizado.ui.fragments.FragmentInformacionDirections
 import com.example.proyectopersonalizado.ui.fragments.FragmentListDirections

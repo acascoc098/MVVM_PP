@@ -1,4 +1,4 @@
-package com.example.proyectopersonalizado.ui
+package com.example.proyectopersonalizado.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

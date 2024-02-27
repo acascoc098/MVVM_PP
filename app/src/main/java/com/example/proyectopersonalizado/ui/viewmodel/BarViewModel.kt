@@ -12,7 +12,7 @@ import com.example.proyectopersonalizado.dialogues.DialogBorrarBar
 import com.example.proyectopersonalizado.dialogues.DialogEditarBar
 import com.example.proyectopersonalizado.models.Bar
 import com.example.proyectopersonalizado.objets_models.Repository
-import com.example.proyectopersonalizado.ui.AdapterBar
+import com.example.proyectopersonalizado.adapter.AdapterBar
 
 class BarViewModel : ViewModel() {
     private val listHotels: MutableLiveData<List<Bar>> = MutableLiveData()
