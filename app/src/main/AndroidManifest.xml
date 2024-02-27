@@ -18,9 +18,6 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".ui.viewmodel.BarViewModel"
-            android:exported="false" />
-        <activity
             android:name=".objets_models.Registro"
             android:exported="false" />
         <activity

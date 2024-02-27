@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        //drawerLayout = findViewById(R.id.fragment_container)
         drawerLayout = findViewById(R.id.fragment_container)
         navigationView = findViewById(R.id.navigationView)
 
