@@ -14,7 +14,7 @@ class ViewHBar(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun renderize(bar : Bar, position: Int){
-        binding.txtviewName.setText(bar. name)
+        /*binding.txtviewName.setText(bar. name)
         binding.txtviewCity.setText(bar. city)
         binding.txtviewProvince.setText(bar. province)
         binding.txtviewPhone.setText(bar. phone)
@@ -23,7 +23,7 @@ class ViewHBar(
             .load(bar. image)
             .centerCrop()
             .into( binding.ivHotel)
-        setOnClickListener(position, bar)
+        setOnClickListener(position, bar)*/
     }
     private fun setOnClickListener(position : Int, bar: Bar) {
         binding.btnEdit.setOnClickListener {

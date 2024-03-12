@@ -65,6 +65,7 @@ class Registro : AppCompatActivity() {
         dao = database.usuarioEntityDao()
 
         imagViewFoto = findViewById(R.id.imgUsu)
+        imagViewFoto.setImageResource(R.drawable.usuario)
         btnCapturaFoto = findViewById(R.id.btnCamara)
         btnGaleria = findViewById(R.id.btnCargar)
         btnGuardarFoto = findViewById(R.id.btnGuardar)
@@ -159,7 +160,6 @@ class Registro : AppCompatActivity() {
             val fileName = "${System.currentTimeMillis()}imagen_de_ejemplo"
             values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
             values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/AppPruebaCamara")
             values.put(MediaStore.Images.Media.IS_PENDING, 1)
 
             val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)

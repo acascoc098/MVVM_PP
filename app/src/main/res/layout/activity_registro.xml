@@ -10,7 +10,7 @@
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="390dp"
-        android:layout_height="500dp"
+        android:layout_height="700dp"
         app:cardCornerRadius="50dp"
         app:cardBackgroundColor="@color/white"
         android:layout_marginLeft="5dp"
@@ -28,8 +28,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="40dp"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/usuario" />
+                android:animateLayoutChanges="true" />
 
             <EditText
                 android:id="@+id/etUsuarioReg"
