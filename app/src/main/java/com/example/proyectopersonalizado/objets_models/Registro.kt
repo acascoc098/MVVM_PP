@@ -1,18 +1,27 @@
 package com.example.proyectopersonalizado.objets_models
 
+import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.proyectopersonalizado.R
 import com.example.proyectopersonalizado.data.retrofit.RequestRegistroUser
 import com.example.proyectopersonalizado.data.retrofit.RetrofitModule
@@ -22,6 +31,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 
 
 class Registro : AppCompatActivity() {
@@ -136,20 +150,107 @@ class Registro : AppCompatActivity() {
 
 
     private fun almacenarFotoEnGaleria() {
-        // Implementación del método almacenarFotoEnGaleria...
+        var fos: OutputStream? = null
+        var f: File? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val values = ContentValues()
+            val resolver: ContentResolver = contentResolver
+
+            val fileName = "${System.currentTimeMillis()}imagen_de_ejemplo"
+            values.put(MediaStore.Images.Media.DISPLAY_NAME, fileName)
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/AppPruebaCamara")
+            values.put(MediaStore.Images.Media.IS_PENDING, 1)
+
+            val collection = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            val imageUri: Uri? = resolver.insert(collection, values)
+
+            try {
+                fos = imageUri?.let { resolver.openOutputStream(it) }
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+
+            values.clear()
+            values.put(MediaStore.Images.Media.IS_PENDING, 0)
+            imageUri?.let { resolver.update(it, values, null, null) }
+        } else {
+            val imageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
+            val fileName = "${System.currentTimeMillis()}.jpg"
+
+            f = File(imageDir, fileName)
+
+            try {
+                fos = FileOutputStream(f)
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+
+        val salvado = fos?.let { bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it) } ?: false
+        if (salvado)
+            Toast.makeText(this, "La imagen se guardó satisfactoriamente", Toast.LENGTH_SHORT).show()
+
+        fos?.let {
+            try {
+                it.flush()
+                it.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+
+        f?.let {
+            MediaScannerConnection.scanFile(this, arrayOf(it.toString()), null, null)
+        }
     }
 
     private fun compruebaPermisosCamara(): Boolean {
-        // Implementación del método compruebaPermisosCamara...
-    }
-
-    private fun compruebaPermisosLecturaGaleria(): Boolean {
-        // Implementación del método compruebaPermisosLecturaGaleria...
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                true
+            } else {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    RESPUESTA_PERMISO_CAMARA
+                )
+                false
+            }
+        } else {
+            true
+        }
     }
 
     private fun compruebaPermisosAlmacenamiento(): Boolean {
-        // Implementación del método compruebaPermisosAlmacenamiento...
+        return ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED || run {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                RESPUESTA_PERMISO_ALMACENAMIENTO
+            )
+            false
+        }
     }
+
+
+    private fun compruebaPermisosLecturaGaleria(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED || run {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                RESPUESTA_PERMISO_GALERIA
+            )
+            false
+        }
+    }
+
 
     private fun crearInicioActividadCamara() {
         inicioActividadCamara = registerForActivityResult(
@@ -173,6 +274,35 @@ class Registro : AppCompatActivity() {
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            RESPUESTA_PERMISO_CAMARA -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    tomarFotoCamara()
+                } else {
+                    Toast.makeText(this, "No se han aceptado los permisos de la cámara", Toast.LENGTH_SHORT).show()
+                }
+            }
+            RESPUESTA_PERMISO_ALMACENAMIENTO -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    almacenarFotoEnGaleria()
+                } else {
+                    Toast.makeText(this, "No se han aceptado los permisos de escritura", Toast.LENGTH_SHORT).show()
+                }
+            }
+            RESPUESTA_PERMISO_GALERIA -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    cargarDesdeGaleria()
+                } else {
+                    Toast.makeText(this, "No se han aceptado los permisos de lectura", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
     private fun tomarFotoCamara() {
         val intentCamara = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         inicioActividadCamara.launch(intentCamara)
@@ -182,10 +312,6 @@ class Registro : AppCompatActivity() {
         val intentGaleria = Intent(Intent.ACTION_GET_CONTENT)
         intentGaleria.type = "image/*"
         inicioActividadLecturaGaleria.launch(intentGaleria)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        // Implementación del método onRequestPermissionsResult...
     }
 
 
