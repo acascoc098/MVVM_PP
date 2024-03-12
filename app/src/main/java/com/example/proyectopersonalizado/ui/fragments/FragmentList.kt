@@ -42,8 +42,8 @@ class FragmentList : Fragment() {
             (myRecyclerView.adapter as? AdapterBar)?.updateData(hotels)
         })
 
-        barViewModel.setAdapter(myRecyclerView) // Pasa la referencia del RecyclerView
-        barViewModel.setAddButton(botonFlotante, myRecyclerView)
+        //barViewModel.setAdapter(myRecyclerView) // Pasa la referencia del RecyclerView
+        barViewModel.setAddButton(botonFlotante, myRecyclerView, barViewModel)
     }
 
     private fun initRecyclerView() {

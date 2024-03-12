@@ -1,22 +1,25 @@
 package com.example.proyectopersonalizado.objets_models
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.ImageView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectopersonalizado.R
 import com.example.proyectopersonalizado.data.retrofit.RequestRegistroUser
 import com.example.proyectopersonalizado.data.retrofit.RetrofitModule
 import com.example.proyectopersonalizado.data.room.dao.UEntityDao
 import com.example.proyectopersonalizado.data.room.database.DBUEntity
-import com.example.proyectopersonalizado.data.room.entities.UsuarioEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -25,6 +28,19 @@ class Registro : AppCompatActivity() {
 
     lateinit var dao : UEntityDao
     lateinit var database : DBUEntity
+
+    private lateinit var imagViewFoto: ImageView
+    private lateinit var btnCapturaFoto: Button
+    private lateinit var btnGuardarFoto: Button
+    private lateinit var btnGaleria: Button
+    private var bitmap: Bitmap? = null
+
+    private lateinit var inicioActividadCamara: ActivityResultLauncher<Intent>
+    private lateinit var inicioActividadLecturaGaleria: ActivityResultLauncher<Intent>
+
+    private val RESPUESTA_PERMISO_CAMARA = 100
+    private val RESPUESTA_PERMISO_ALMACENAMIENTO = 200
+    private val RESPUESTA_PERMISO_GALERIA = 300
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro)
@@ -33,6 +49,26 @@ class Registro : AppCompatActivity() {
         val BotonVolver = findViewById<Button>(R.id.btnCreadoReg)
         database = DBUEntity.getDatabase(applicationContext);
         dao = database.usuarioEntityDao()
+
+        imagViewFoto = findViewById(R.id.imgUsu)
+        btnCapturaFoto = findViewById(R.id.btnCamara)
+        btnGaleria = findViewById(R.id.btnCargar)
+        btnGuardarFoto = findViewById(R.id.btnGuardar)
+
+        btnCapturaFoto.setOnClickListener {
+            if (compruebaPermisosCamara()) tomarFotoCamara()
+        }
+
+        btnGuardarFoto.setOnClickListener {
+            if (compruebaPermisosAlmacenamiento()) almacenarFotoEnGaleria()
+        }
+
+        btnGaleria.setOnClickListener {
+            if (compruebaPermisosLecturaGaleria()) cargarDesdeGaleria()
+        }
+
+        crearInicioActividadCamara()
+        crearInicioActividadLeerImagenGaleria()
 
         BotonVolver.setOnClickListener{
             val intent = Intent(this, Login::class.java)
@@ -99,18 +135,58 @@ class Registro : AppCompatActivity() {
     }
 
 
+    private fun almacenarFotoEnGaleria() {
+        // Implementación del método almacenarFotoEnGaleria...
+    }
 
+    private fun compruebaPermisosCamara(): Boolean {
+        // Implementación del método compruebaPermisosCamara...
+    }
 
+    private fun compruebaPermisosLecturaGaleria(): Boolean {
+        // Implementación del método compruebaPermisosLecturaGaleria...
+    }
 
+    private fun compruebaPermisosAlmacenamiento(): Boolean {
+        // Implementación del método compruebaPermisosAlmacenamiento...
+    }
 
+    private fun crearInicioActividadCamara() {
+        inicioActividadCamara = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                bitmap = result.data?.extras?.get("data") as? Bitmap
+                imagViewFoto.setImageBitmap(bitmap)
+            }
+        }
+    }
 
+    private fun crearInicioActividadLeerImagenGaleria() {
+        inicioActividadLecturaGaleria = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val imagenUri: Uri? = result.data?.data
+                imagViewFoto.setImageURI(imagenUri)
+            }
+        }
+    }
 
+    private fun tomarFotoCamara() {
+        val intentCamara = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        inicioActividadCamara.launch(intentCamara)
+    }
 
+    private fun cargarDesdeGaleria() {
+        val intentGaleria = Intent(Intent.ACTION_GET_CONTENT)
+        intentGaleria.type = "image/*"
+        inicioActividadLecturaGaleria.launch(intentGaleria)
+    }
 
-
-
-
-
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        // Implementación del método onRequestPermissionsResult...
+    }
 
 
 

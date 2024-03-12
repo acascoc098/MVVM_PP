@@ -23,6 +23,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/imgUsu"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
@@ -60,6 +61,29 @@
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/edittext"
                 android:hint="   Nombre" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/btnCamara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cámara"
+                    android:textSize="12dp"/>
+                <Button
+                    android:id="@+id/btnGuardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guardar"
+                    android:textSize="12dp"/>
+                <Button
+                    android:id="@+id/btnCargar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cargar"
+                    android:textSize="12dp"/>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnValidarReg"
