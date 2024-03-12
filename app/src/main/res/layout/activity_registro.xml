@@ -38,7 +38,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/edittext"
-                android:hint="   Usuario" />
+                android:hint="   Email" />
 
             <EditText
                 android:id="@+id/etContraseñaReg"
@@ -51,6 +51,15 @@
                 android:hint="   Contraseña"
                 android:inputType="textPassword" />
 
+            <EditText
+                android:id="@+id/etNombreReg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/edittext"
+                android:hint="   Nombre" />
 
             <Button
                 android:id="@+id/btnValidarReg"

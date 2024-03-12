@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectopersonalizado.R
+import com.example.proyectopersonalizado.data.retrofit.RequestRegistroUser
+import com.example.proyectopersonalizado.data.retrofit.RetrofitModule
 import com.example.proyectopersonalizado.data.room.dao.UEntityDao
 import com.example.proyectopersonalizado.data.room.database.DBUEntity
 import com.example.proyectopersonalizado.data.room.entities.UsuarioEntity
@@ -45,9 +47,12 @@ class Registro : AppCompatActivity() {
             val editsetNuevaContraseña = findViewById<EditText>(R.id.etContraseñaReg)
             val nuevaContraseña = editsetNuevaContraseña.text.toString()
 
-            val nuevoUser = UsuarioEntity (usuario = nuevoUsuario, contrasena = nuevaContraseña)
+            val editNombre = findViewById<EditText>(R.id.etNombreReg)
+            val nuevoNombre = editNombre.text.toString()
 
-            GlobalScope.launch {
+            //val nuevoUser = UsuarioEntity (usuario = nuevoUsuario, contrasena = nuevaContraseña)
+
+            /*GlobalScope.launch {
                 val existingUser = dao.getUsuarioByUsuario(nuevoUsuario)
                 if (existingUser == null) {
                     dao.insertarUsuario(nuevoUser)
@@ -61,8 +66,32 @@ class Registro : AppCompatActivity() {
                         Toast.makeText(this@Registro, "EMAIL YA REGISTRADO", Toast.LENGTH_LONG).show()
                     }
                 }
-            }
+            }*/
 
+            GlobalScope.launch(Dispatchers.IO){
+                val response = withContext(Dispatchers.IO){
+                    RetrofitModule.instance.registro(RequestRegistroUser( nuevoUsuario,nuevaContraseña,nuevoNombre))
+                }
+
+                if (response.isSuccessful && response.body()?.result == "ok"){
+                    if (response.body()?.insert_id == 0){
+                        withContext(Dispatchers.Main){
+                            //Ya registrado
+                        }
+                    } else {
+                        withContext(Dispatchers.Main){
+                            //Resgitrado
+                        }
+                        val intent = Intent(this@Registro, Login::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                } else {
+                    withContext(Dispatchers.Main){
+                        //No se hace el registro
+                    }
+                }
+            }
 
 
 

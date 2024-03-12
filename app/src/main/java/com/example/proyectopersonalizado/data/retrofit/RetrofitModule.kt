@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val URL_BASE_RETROFIT = "http://10.0.2.2/api-pueblos/"
+    private const val URL_BASE_RETROFIT = "http://10.0.2.2/api-bares/"
 
     val instance: ApiService by lazy {
         Retrofit.Builder()

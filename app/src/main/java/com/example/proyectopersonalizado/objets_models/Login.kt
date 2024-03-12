@@ -73,7 +73,7 @@ class Login : AppCompatActivity() {
                 val response = RetrofitModule.instance.auth(RequestLoginUser(valorUsuario,valorPass))
 
                 if (response.isSuccessful && response.body()?.result == "ok") {
-                    preferencias.guardarUsuario(valorUsuario);
+                    preferencias.guardarUsuario(response.body()!!.token);
                     val intent = Intent(this@Login, MainActivity::class.java)
                     startActivity(intent)
                     finish()
