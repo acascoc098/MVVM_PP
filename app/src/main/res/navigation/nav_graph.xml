@@ -68,13 +68,7 @@
             android:name="nombre"
             app:argType="string" />
         <argument
-            android:name="telefono"
-            app:argType="string" />
-        <argument
-            android:name="ciudad"
-            app:argType="string" />
-        <argument
-            android:name="provincia"
+            android:name="descripcion"
             app:argType="string" />
     </fragment>
 </navigation>

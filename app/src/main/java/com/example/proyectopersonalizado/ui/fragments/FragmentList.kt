@@ -29,12 +29,13 @@ class FragmentList : Fragment() {
         val rootView = enlace.root
         botonFlotante = rootView.findViewById(R.id.btn_add)
         myRecyclerView = enlace.myRecyclerView // Asigna el RecyclerView
+        barViewModel.init(requireContext())
 
-        init()
+        initVM()
         return rootView
     }
 
-    private fun init() {
+    private fun initVM() {
         initRecyclerView()
 
         barViewModel.getListHotels().observe(viewLifecycleOwner, { hotels ->

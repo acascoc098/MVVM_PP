@@ -6,13 +6,20 @@ import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectopersonalizado.R
+import com.example.proyectopersonalizado.data.retrofit.RequestEditBar
+import com.example.proyectopersonalizado.data.retrofit.RetrofitModule
 import com.example.proyectopersonalizado.models.Bar
+import com.example.proyectopersonalizado.objets_models.Preferencias
+import com.example.proyectopersonalizado.ui.viewmodel.BarViewModel
+import kotlinx.coroutines.launch
 import kotlin.reflect.KFunction2
 
-class DialogEditarBar(val context: Context) {
+class DialogEditarBar(val context: Context, val barID: String, val viewModel: BarViewModel) {
 
+    private lateinit var preferencias: Preferencias
     private val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
 
     fun showConfirmationDialog(pos: Int, listBars: MutableList<Bar>, recyclerView: RecyclerView, updateHotelConfirm: KFunction2<Int, RecyclerView, Unit>): AlertDialog? {
@@ -24,9 +31,7 @@ class DialogEditarBar(val context: Context) {
 
         // Obtener referencias a los campos de edición
         val etNombre = view.findViewById<EditText>(R.id.etDialog1)
-        val etCiudad = view.findViewById<EditText>(R.id.etDialog2)
-        val etProvincia = view.findViewById<EditText>(R.id.etDialog3)
-        val etNumero = view.findViewById<EditText>(R.id.etDialog4)
+        val etDescripcion = view.findViewById<EditText>(R.id.etDialog2)
         val etImagen = view.findViewById<EditText>(R.id.etDialog5)
         // ...
 
@@ -34,11 +39,9 @@ class DialogEditarBar(val context: Context) {
         val hotel = listBars[pos]
 
         // Establecer los valores en los campos de edición
-        etNombre.setText(hotel.name)
-        etCiudad.setText(hotel.city)
-        etProvincia.setText(hotel.province)
-        etNumero.setText(hotel.phone)
-        etImagen.setText(hotel.image)
+        etNombre.setText(hotel.nombre)
+        etDescripcion.setText(hotel.descripcion)
+        etImagen.setText(hotel.imagen)
         // ...
 
         // Incorpora otras configuraciones y personalizaciones a tu diálogo
@@ -46,22 +49,36 @@ class DialogEditarBar(val context: Context) {
             .setPositiveButton("Editar", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     val textoNombre = view.findViewById<EditText>(R.id.etDialog1)
-                    val textoCiudad = view.findViewById<EditText>(R.id.etDialog2)
-                    val textoProvincia = view.findViewById<EditText>(R.id.etDialog3)
-                    val textoTelefono = view.findViewById<EditText>(R.id.etDialog4)
+                    val textoDescripcion = view.findViewById<EditText>(R.id.etDialog2)
                     val textoUrl = view.findViewById<EditText>(R.id.etDialog5)
 
                     val nombre = textoNombre.text.toString()
-                    val ciudad = textoCiudad.text.toString()
-                    val provincia = textoProvincia.text.toString()
-                    val telefono = textoTelefono.text.toString()
+                    val descripcion = textoDescripcion.text.toString()
                     val url = textoUrl.text.toString()
-                    if (nombre.isNotEmpty() && ciudad.isNotEmpty() && provincia.isNotEmpty() && telefono.isNotEmpty() && url.isNotEmpty()){
-                        Toast.makeText(context, "Bar editado correctamente", Toast.LENGTH_SHORT).show()
-                        val nuevoBar = Bar(nombre, ciudad, provincia, telefono, url)
+                    if (nombre.isNotEmpty() && descripcion.isNotEmpty() && url.isNotEmpty()){
+
+                        viewModel.viewModelScope.launch {
+                            try {
+                                val token = preferencias.obtenerToken().toString()
+                                val response = RetrofitModule.instance.editBar(token, barID, RequestEditBar( nombre,descripcion,url))
+
+                                if (response.isSuccessful && response.body()?.result == "ok actualizacion"){
+                                    //toast edicion correcta
+                                    val nuevoBar = Bar(barID,nombre,descripcion,url);
+                                    listBars.removeAt(pos)
+                                    listBars.add(pos,nuevoBar)
+                                    updateHotelConfirm(pos,recyclerView)
+                                }
+
+                            } catch (e: Exception){
+                                //
+                            }
+                        }
+                        /*Toast.makeText(context, "Bar editado correctamente", Toast.LENGTH_SHORT).show()
+                        val nuevoBar = Bar(nombre, descripcion, url)
                         listBars.removeAt(pos)
                         listBars.add(pos, nuevoBar)
-                        updateHotelConfirm(pos, recyclerView)
+                        updateHotelConfirm(pos, recyclerView)*/
                     }else{
                         Toast.makeText(context, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show()
                     }

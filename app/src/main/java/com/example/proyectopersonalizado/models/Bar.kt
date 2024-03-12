@@ -1,13 +1,19 @@
 package com.example.proyectopersonalizado.models
 
 class Bar (
-    var name: String,
-    var city: String,
-    var province: String,
-    var phone: String,
-    var image: String
+    var id: String,
+    var id_usuario: String,
+    var nombre: String,
+    var descripcion: String,
+    var imagen: String
 ) {
+    constructor(
+        id: String,
+        nombre: String,
+        descripcion: String,
+        imagen: String
+    ): this(id,"",nombre,descripcion,imagen)
     override fun toString(): String {
-        return "Bar(name='$name', city='$city', province='$province', phone='$phone', image='$image')"
+        return "Bar(id='$id',name='$nombre', usuario='$id_usuario', descripcion='$descripcion', imagen='$imagen')"
     }
 }
