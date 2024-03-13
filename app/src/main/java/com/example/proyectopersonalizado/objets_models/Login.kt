@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.proyectopersonalizado.R
+import com.example.proyectopersonalizado.data.retrofit.ApiService
 import com.example.proyectopersonalizado.data.retrofit.RequestLoginUser
 import com.example.proyectopersonalizado.data.retrofit.RetrofitModule
 import com.example.proyectopersonalizado.data.room.dao.UEntityDao
@@ -34,13 +35,15 @@ class Login : AppCompatActivity() {
     private lateinit var preferencias: Preferencias
     lateinit var dao : UEntityDao
     lateinit var database : DBUEntity
-    @SuppressLint("MissingInflatedId")
+    private lateinit var apiService: ApiService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         database = DBUEntity.getDatabase(applicationContext);
         dao = database.usuarioEntityDao()
         preferencias = Preferencias(this)
+        apiService = RetrofitModule.instance
 
 
 

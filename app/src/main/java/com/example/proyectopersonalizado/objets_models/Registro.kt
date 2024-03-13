@@ -127,11 +127,19 @@ class Registro : AppCompatActivity() {
                 if (response.isSuccessful && response.body()?.result == "ok"){
                     if (response.body()?.insert_id == 0){
                         withContext(Dispatchers.Main){
-                            //Ya registrado
+                            Toast.makeText(
+                                this@Registro,
+                                "EMAIL YA REGISTRADO",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     } else {
                         withContext(Dispatchers.Main){
-                            //Resgitrado
+                            Toast.makeText(
+                                this@Registro,
+                                "REGISTRADO SATISFACTORIAMENTE",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                         val intent = Intent(this@Registro, Login::class.java)
                         startActivity(intent)
@@ -139,7 +147,11 @@ class Registro : AppCompatActivity() {
                     }
                 } else {
                     withContext(Dispatchers.Main){
-                        //No se hace el registro
+                        Toast.makeText(
+                            this@Registro,
+                            "NO SE PUDO REALIZAR EL REGISTRO",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
             }

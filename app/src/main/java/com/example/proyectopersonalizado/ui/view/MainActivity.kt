@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.proyectopersonalizado.R
 import com.example.proyectopersonalizado.objets_models.Login
+import com.example.proyectopersonalizado.objets_models.Preferencias
 import com.example.proyectopersonalizado.ui.fragments.FragmentConfiguracionDirections
 import com.example.proyectopersonalizado.ui.fragments.FragmentInformacionDirections
 import com.example.proyectopersonalizado.ui.fragments.FragmentListDirections
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navigationView: NavigationView
     private lateinit var textomenu1: TextView
     private lateinit var textomenu2: TextView
+    private lateinit var preferencias: Preferencias
 
 
     @Inject
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         navController = navHostFragment.navController
+        preferencias = Preferencias(this)
 
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -102,9 +105,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_logout -> {
-                    val intent = Intent(this@MainActivity, Login::class.java)
-                    startActivity(intent)
-                    drawerLayout.closeDrawer(GravityCompat.START)
+                    preferencias.borrarPreferencias()
+                    finishAffinity()
                     true
                 }
                 else -> false
