@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
@@ -55,17 +56,17 @@ class DialogAñadirBar(private val context: Context, val viewModel: BarViewModel
 
                                 if (response.isSuccessful && response.body()?.result == "ok insercion") {
                                     barID = response.body()?.insert_id.toString()
-                                    //toast añadido correctamente
+                                    Toast.makeText(context, "Bar agregado correctamente", Toast.LENGTH_SHORT).show()
                                     val bar = Bar(barID, nombre, descripcion, url)
                                     listBars.add(bar)
                                     val newPos = (barID.toInt())
 
                                     addHotelConfirm(newPos, recyclerView)
                                 } else {
-                                    //error viewmodel
+                                    Log.e("Insercción de bar no fue posible", "Error")
                                 }
                             } catch (e: Exception){
-                                //error insercion
+                                Log.e("Insercción de bar no fue posible", "Error")
                             }
                         }
                         /*Toast.makeText(context, "Bar agregado correctamente", Toast.LENGTH_SHORT).show()
@@ -81,7 +82,6 @@ class DialogAñadirBar(private val context: Context, val viewModel: BarViewModel
             })
             .setNegativeButton("Cancelar", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
-                    // Cancela la acción y cierra el diálogo
                     dialog?.cancel()
                 }
             })
