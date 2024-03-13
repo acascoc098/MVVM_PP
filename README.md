@@ -353,3 +353,18 @@ class Bar (
     }
 }
 ```
+### IMPORTANTE
+Para un correcto funcionamiento podemos crear el archivo `network-security-config.xml`, que contiene:
+```html
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">192.0.0.1</domain>
+    </domain-config>
+</network-security-config>
+```
+Ruta: app/src/main/res/xml/network_security_config.xml
+
+¡¡¡El cuál debemos añadirlo en el manifest!!!
