@@ -1,10 +1,17 @@
 ## PROYECTO PERSONALIZADO
 #### Versión final con API
 
+**AUTORA: ANDREA CASTILLA COCERA**
+`Repositorios`:
+
 [API (api-bares)](https://github.com/acascoc098/docker-lamp-bares.git)
+
+[PROYECTO](https://github.com/acascoc098/MVVM_PP.git)
 
 ###### ESTRUCTURA 
 Para esto he creado la siguiente carpeta con esta estructura:
+
+Ruta: app/src/main/java/com/example/proyectopersonalizado/data
 * data
   * retrofit
     * ApiService -> Donde hacemos las peticiones POST, GET, PUT y DELETE
@@ -40,6 +47,7 @@ interface ApiService {
 }
 ```
 Aquí se gestionan las peticiones a la api.
+
 Y por otro lado veamos `RetrofitModule`:
 ```kotlin
 @Module
@@ -148,4 +156,200 @@ Y para el **Resgistro** hacemos estos cambios:
                     }
                 }
             }
+```
+Además de añadir en el html un `EditText` para el nombre:
+```html
+<EditText
+                android:id="@+id/etNombreReg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/edittext"
+                android:hint="   Nombre" />
+```
+
+###### DIÁLOGOS
+Aquí nos econtramos cambios en los 3 diálogos:
+*DialogAñadirBar*
+```kotlin
+val textoNombre = view.findViewById<EditText>(R.id.etDialog1)
+                    val textoDescripcion = view.findViewById<EditText>(R.id.etDialog2)
+                    val textoUrl = view.findViewById<EditText>(R.id.etDialog5)
+
+                    val nombre = textoNombre.text.toString()
+                    val descripcion = textoDescripcion.text.toString()
+                    val url = textoUrl.text.toString()
+                    if (nombre.isNotEmpty() && descripcion.isNotEmpty() && url.isNotEmpty()){
+                        viewModel.viewModelScope.launch{
+                            try {
+                                val token = preferencias.obtenerToken().toString()
+                                val response = RetrofitModule.instance.addBar(
+                                    token,
+                                    RequestAddBar(nombre, descripcion, url)
+                                )
+
+                                if (response.isSuccessful && response.body()?.result == "ok insercion") {
+                                    barID = response.body()?.insert_id.toString()
+                                    //toast añadido correctamente
+                                    val bar = Bar(barID, nombre, descripcion, url)
+                                    listBars.add(bar)
+                                    val newPos = (barID.toInt())
+
+                                    addHotelConfirm(newPos, recyclerView)
+                                } else {
+                                    //error viewmodel
+                                }
+                            } catch (e: Exception){
+                                //error insercion
+                            }
+                        }
+```
+*DialogBorrarBar*
+```kotlin
+val alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setTitle("Confirmar eliminación")
+        alertDialogBuilder.setMessage("¿Estás seguro de que quieres eliminar el bar "+name+"?")
+        alertDialogBuilder.setPositiveButton("Sí") { dialog, _ ->
+            viewModel.viewModelScope.launch {
+                try {
+                    val token = preferencias.obtenerToken().toString()
+                    val response = RetrofitModule.instance.deleteBar(token,barID)
+
+                    if (response.isSuccessful && response.body()?.result == "ok"){
+                        //toast borramos el bar
+                        listBars.removeAt(pos)
+
+                        recyclerView.adapter?.notifyItemRemoved(pos)
+                        recyclerView.adapter?.notifyItemRangeChanged(pos, listBars.size)
+                    } else {
+                        //error viewmodel
+                    }
+                }catch (e: Exception){}
+            }
+```
+*DialogEditarBar*
+```kotlin
+val textoNombre = view.findViewById<EditText>(R.id.etDialog1)
+                    val textoDescripcion = view.findViewById<EditText>(R.id.etDialog2)
+                    val textoUrl = view.findViewById<EditText>(R.id.etDialog5)
+
+                    val nombre = textoNombre.text.toString()
+                    val descripcion = textoDescripcion.text.toString()
+                    val url = textoUrl.text.toString()
+                    if (nombre.isNotEmpty() && descripcion.isNotEmpty() && url.isNotEmpty()){
+
+                        viewModel.viewModelScope.launch {
+                            try {
+                                val token = preferencias.obtenerToken().toString()
+                                val response = RetrofitModule.instance.editBar(token, barID, RequestEditBar( nombre,descripcion,url))
+
+                                if (response.isSuccessful && response.body()?.result == "ok actualizacion"){
+                                    //toast edicion correcta
+                                    val nuevoBar = Bar(barID,nombre,descripcion,url);
+                                    listBars.removeAt(pos)
+                                    listBars.add(pos,nuevoBar)
+                                    updateHotelConfirm(pos,recyclerView)
+                                }
+
+                            } catch (e: Exception){
+                                //
+                            }
+                        }
+```
+**NO OLNIDES LOS CAMBIOS NECESARIOS EN LOS ARCHIVOS HTML**
+
+###### VIEWMODEL
+En cuanto al viewmodel debemos hacer estor cambios:
+
+```kotlin
+class BarViewModel : ViewModel() {
+    private val listBares: MutableLiveData<List<Bar>> = MutableLiveData()
+    private lateinit var preferencias: Preferencias
+
+    fun init (context: Context) {
+        preferencias = Preferencias(context)
+        initData()
+    }
+
+    private fun initData() {
+        //listHotels.value = Repository.listBars.toMutableList()
+        viewModelScope.launch {
+            try {
+                val token = preferencias.obtenerToken().toString()
+                val response = RetrofitModule.instance.bares(token)
+
+                if (response.isSuccessful && response.body()?.result == "ok"){
+                    listBares.value = response.body()?.bares ?: emptyList()
+                }
+            }catch (e: Exception){
+                //Error con la lista
+            }
+        }
+    }
+
+    fun getListHotels(): LiveData<List<Bar>> {
+        return listBares
+    }
+
+    private fun updateHotelConfirm(pos: Int, recyclerView: RecyclerView) {
+        recyclerView.adapter?.notifyItemChanged(pos)
+    }
+
+    fun addHotelConfirm(pos: Int, recyclerView: RecyclerView) {
+        recyclerView.adapter?.notifyItemInserted(pos)
+        recyclerView.smoothScrollToPosition(pos)
+    }
+
+    fun setAddButton(addButton: ImageButton, recyclerView: RecyclerView, viewModel: BarViewModel) {
+        addButton.setOnClickListener {
+            addHotel(recyclerView,viewModel)
+        }
+    }
+    fun delHotel(pos: Int, recyclerView: RecyclerView, viewModel: BarViewModel) {
+        val barID = listBares.value?.get(pos)?.id ?: ""
+        val alertDialogHelper = DialogBorrarBar(recyclerView.context,barID,viewModel)
+        alertDialogHelper.showConfirmationDialog(pos, listBares.value as MutableList<Bar>, listBares.value!![pos].nombre, recyclerView)
+    }
+
+    fun updateHotel(pos: Int, recyclerView: RecyclerView, viewModel: BarViewModel) {
+        val barID = listBares.value?.get(pos)?.id ?: ""
+        val dialog = DialogEditarBar(recyclerView.context, barID, viewModel)
+        val alertDialog = dialog.showConfirmationDialog(pos, listBares.value as MutableList<Bar>, recyclerView, ::updateHotelConfirm)
+        alertDialog?.show()
+    }
+
+    fun addHotel(recyclerView: RecyclerView, viewModel: BarViewModel) {
+        val dialog = DialogAñadirBar(recyclerView.context, viewModel)
+        val alertdialog = dialog.onCreateDialog(listBares.value as MutableList<Bar>, recyclerView, ::addHotelConfirm)
+        alertdialog.show()
+    }
+
+    fun infoHotel(bar: Bar, recyclerView: RecyclerView) {
+        val navController = recyclerView.findNavController()
+        val action = FragmentListDirections.actionFragmentListToFragmentInformacion(imagen = bar.imagen, nombre = bar.nombre, descripcion = bar.descripcion)
+        navController.navigate(action)
+    }
+}
+```
+Además, habrá que cambiar el modelo bar para que se asemeje a nuestra api:
+```kotlin
+class Bar (
+    var id: String,
+    var id_usuario: String,
+    var nombre: String,
+    var descripcion: String,
+    var imagen: String
+) {
+    constructor(
+        id: String,
+        nombre: String,
+        descripcion: String,
+        imagen: String
+    ): this(id,"",nombre,descripcion,imagen)
+    override fun toString(): String {
+        return "Bar(id='$id',name='$nombre', usuario='$id_usuario', descripcion='$descripcion', imagen='$imagen')"
+    }
+}
 ```
