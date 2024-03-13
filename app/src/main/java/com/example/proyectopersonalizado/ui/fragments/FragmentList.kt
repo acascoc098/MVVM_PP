@@ -38,7 +38,7 @@ class FragmentList : Fragment() {
     private fun initVM() {
         initRecyclerView()
 
-        barViewModel.getListHotels().observe(viewLifecycleOwner, { hotels ->
+        barViewModel.getListBares().observe(viewLifecycleOwner, { hotels ->
             (myRecyclerView.adapter as? AdapterBar)?.updateData(hotels)
         })
 

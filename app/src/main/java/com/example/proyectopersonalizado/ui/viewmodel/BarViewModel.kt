@@ -1,6 +1,7 @@
 package com.example.proyectopersonalizado.ui.viewmodel
 
 import android.content.Context
+import android.util.Log
 import android.widget.ImageButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +14,6 @@ import com.example.proyectopersonalizado.dialogues.DialogAñadirBar
 import com.example.proyectopersonalizado.dialogues.DialogBorrarBar
 import com.example.proyectopersonalizado.dialogues.DialogEditarBar
 import com.example.proyectopersonalizado.models.Bar
-import com.example.proyectopersonalizado.adapter.AdapterBar
 import com.example.proyectopersonalizado.data.retrofit.RetrofitModule
 import com.example.proyectopersonalizado.objets_models.Preferencias
 import kotlinx.coroutines.launch
@@ -38,35 +38,34 @@ class BarViewModel : ViewModel() {
                     listBares.value = response.body()?.bares ?: emptyList()
                 }
             }catch (e: Exception){
-                //Error con la lista
+                Log.e("TrabajoViewModel", "Error", e)
             }
         }
     }
 
-    fun getListHotels(): LiveData<List<Bar>> {
+    fun getListBares(): LiveData<List<Bar>> {
         return listBares
     }
 
-    private fun updateHotelConfirm(pos: Int, recyclerView: RecyclerView) {
+    private fun updateBarConfirm(pos: Int, recyclerView: RecyclerView) {
         recyclerView.adapter?.notifyItemChanged(pos)
     }
 
-    fun addHotelConfirm(pos: Int, recyclerView: RecyclerView) {
+    fun addBarConfirm(pos: Int, recyclerView: RecyclerView) {
         recyclerView.adapter?.notifyItemInserted(pos)
         recyclerView.smoothScrollToPosition(pos)
     }
     /*fun setAdapter(recyclerView: RecyclerView) {
         recyclerView.adapter = AdapterBar(
             listBares.value as MutableList<Bar>,
-            { pos -> delHotel(pos, recyclerView) },
+            { pos -> delHotel(pos, recyclerView, viewModel) },
             { pos -> updateHotel(pos, recyclerView) },
             { hotel -> infoHotel(hotel, recyclerView)}
         )
     }*/
-
     fun setAddButton(addButton: ImageButton, recyclerView: RecyclerView, viewModel: BarViewModel) {
         addButton.setOnClickListener {
-            addHotel(recyclerView,viewModel)
+            addBar(recyclerView,viewModel)
         }
     }
     fun delHotel(pos: Int, recyclerView: RecyclerView, viewModel: BarViewModel) {
@@ -78,19 +77,19 @@ class BarViewModel : ViewModel() {
     fun updateHotel(pos: Int, recyclerView: RecyclerView, viewModel: BarViewModel) {
         val barID = listBares.value?.get(pos)?.id ?: ""
         val dialog = DialogEditarBar(recyclerView.context, barID, viewModel)
-        val alertDialog = dialog.showConfirmationDialog(pos, listBares.value as MutableList<Bar>, recyclerView, ::updateHotelConfirm)
+        val alertDialog = dialog.showConfirmationDialog(pos, listBares.value as MutableList<Bar>, recyclerView, ::updateBarConfirm)
         alertDialog?.show()
     }
 
-    fun addHotel(recyclerView: RecyclerView, viewModel: BarViewModel) {
+    fun addBar(recyclerView: RecyclerView, viewModel: BarViewModel) {
         val dialog = DialogAñadirBar(recyclerView.context, viewModel)
-        val alertdialog = dialog.onCreateDialog(listBares.value as MutableList<Bar>, recyclerView, ::addHotelConfirm)
+        val alertdialog = dialog.onCreateDialog(listBares.value as MutableList<Bar>, recyclerView, ::addBarConfirm)
         alertdialog.show()
     }
 
     fun infoHotel(bar: Bar, recyclerView: RecyclerView) {
         val navController = recyclerView.findNavController()
-        val action = FragmentListDirections.actionFragmentListToFragmentInformacion(imagen = bar.imagen, nombre = bar.nombre, descripcion = bar.descripcion)
+        val action = FragmentListDirections.actionFragmentListToFragmentInformacion(nombre = bar.nombre, descripcion = bar.descripcion, imagen = bar.imagen)
         navController.navigate(action)
     }
 

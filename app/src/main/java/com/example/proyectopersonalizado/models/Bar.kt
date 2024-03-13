@@ -13,6 +13,12 @@ class Bar (
         descripcion: String,
         imagen: String
     ): this(id,"",nombre,descripcion,imagen)
+
+    constructor(
+        nombre: String,
+        descripcion: String,
+        imagen: String
+    ): this("","",nombre,descripcion,imagen)
     override fun toString(): String {
         return "Bar(id='$id',name='$nombre', usuario='$id_usuario', descripcion='$descripcion', imagen='$imagen')"
     }

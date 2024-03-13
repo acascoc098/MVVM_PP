@@ -66,7 +66,7 @@ class DialogAñadirBar(private val context: Context, val viewModel: BarViewModel
                                     Log.e("Insercción de bar no fue posible", "Error")
                                 }
                             } catch (e: Exception){
-                                Log.e("Insercción de bar no fue posible", "Error")
+                                Log.e("Insercción de bar no fue posible", "Error 2")
                             }
                         }
                         /*Toast.makeText(context, "Bar agregado correctamente", Toast.LENGTH_SHORT).show()
